@@ -7,7 +7,7 @@
 @using Microsoft.AspNet.Identity
 @if (Request.IsAuthenticated && User.Identity.GetUserName() != "Admin")
 {
-    <h2>@User.Identity.GetUserName()'s Friends</h2>
+    <h2>My Contacts</h2>
 }
 else
 {
@@ -15,7 +15,7 @@ else
 }
 
 <p>
-    @Html.ActionLink("Add Friend", "Create")
+    @Html.ActionLink("Add Contact", "Create")
 </p>
 <table class="table">
     <tr>

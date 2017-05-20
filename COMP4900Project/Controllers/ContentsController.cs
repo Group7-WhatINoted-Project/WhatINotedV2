@@ -10,6 +10,8 @@ using COMP4900Project.Models;
 using Microsoft.AspNet.Identity;
 using System.Drawing;
 using Newtonsoft.Json.Linq;
+using System.Text;
+using System.IO;
 
 namespace COMP4900Project.Controllers
 {
@@ -197,6 +199,38 @@ namespace COMP4900Project.Controllers
             base.Dispose(disposing);
         }
 
+        [ActionName("ExploreNote")]
+        public ActionResult ExploreNote(int? id)
+        {
+            // this action will create text file 'note.txt' with data from
+            // string variable 'string_with_your_data', which will be downloaded by
+            // your browser
+
+            //todo: add some data from your database into that string:
+            Content content = db.Contents.Find(id);
+            var string_with_your_data = content.Note;
+            var byteArray = Encoding.ASCII.GetBytes(string_with_your_data);
+            var stream = new MemoryStream(byteArray);
+
+            return File(stream, "text/plain", "Note.txt");
+        }
+
+        //explore the text file with text data
+        [ActionName("ExploreText")]
+        public ActionResult ExploreText(int? id)
+        {
+            // this action will create text file 'Text.txt' with data from
+            // string variable 'string_with_your_data', which will be downloaded by
+            // your browser
+
+            //todo: add some data from your database into that string:
+            Content content = db.Contents.Find(id);
+            var string_with_your_data = content.Text;
+            var byteArray = Encoding.ASCII.GetBytes(string_with_your_data);
+            var stream = new MemoryStream(byteArray);
+
+            return File(stream, "text/plain", "Text.txt");
+        }
 
 
 
@@ -243,7 +277,8 @@ namespace COMP4900Project.Controllers
 
             string title = (string)o["ISBN:" + Reference1]["details"]["title"];
 
-            string publish_places = (string)o["ISBN:" + Reference1]["details"]["publish_places"][0];
+            //string publish_places = (string)o["ISBN:" + Reference1]["details"]["publish_places"][0];
+            string publish_places = "";
             string[] publish_placesArray = publish_places.Split(' ');
             string publish_city = publish_placesArray.First();
             string publishers = (string)o["ISBN:" + Reference1]["details"]["publishers"][0];
@@ -253,7 +288,8 @@ namespace COMP4900Project.Controllers
             if (style == "APA")
             {
                 citation = surname + ", " + initial + " (" + publish_date + "). <i>" +
-                    title + "</i> (p. " + pages + "). " + publish_city + ": " + publishers + ".";
+                    title + "</i> " + (pages == "" ? "" : "(p. " + pages + "). ") + publish_city + ": " + publishers + ".";
+                
             }
             else
             {
