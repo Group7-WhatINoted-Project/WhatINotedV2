@@ -243,7 +243,8 @@ namespace COMP4900Project.Controllers
 
             string title = (string)o["ISBN:" + Reference1]["details"]["title"];
 
-            string publish_places = (string)o["ISBN:" + Reference1]["details"]["publish_places"][0];
+            //string publish_places = (string)o["ISBN:" + Reference1]["details"]["publish_places"][0];
+            string publish_places = "";
             string[] publish_placesArray = publish_places.Split(' ');
             string publish_city = publish_placesArray.First();
             string publishers = (string)o["ISBN:" + Reference1]["details"]["publishers"][0];
@@ -253,7 +254,8 @@ namespace COMP4900Project.Controllers
             if (style == "APA")
             {
                 citation = surname + ", " + initial + " (" + publish_date + "). <i>" +
-                    title + "</i> (p. " + pages + "). " + publish_city + ": " + publishers + ".";
+                    title + "</i> " + (pages == "" ? "" : "(p. " + pages + "). ") + publish_city + ": " + publishers + ".";
+                
             }
             else
             {

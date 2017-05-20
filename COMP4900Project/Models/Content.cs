@@ -10,11 +10,11 @@ namespace COMP4900Project.Models
     {
         public int ContentId { get; set; }
 
-        [DataType(DataType.MultilineText)]
+        //[DataType(DataType.MultilineText)]
         public string Text { get; set; }
         [DataType(DataType.MultilineText)]
         public string Note { get; set; }
-        [DataType(DataType.MultilineText)]
+        //[DataType(DataType.MultilineText)]
         public string Reference { get; set; }
         public DateTime TimeUpdated { get; set; }
 

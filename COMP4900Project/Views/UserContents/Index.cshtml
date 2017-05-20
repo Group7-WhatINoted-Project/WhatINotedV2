@@ -4,34 +4,83 @@
     ViewBag.Title = "Index";
 }
 
-@using Microsoft.AspNet.Identity
-@if (Request.IsAuthenticated)
-{
-    <h2>@User.Identity.GetUserName()'s Contents</h2>
-}
-else
-{
-    <h2>UserContents</h2>
-}
+<h2>My Contents</h2>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script>
+
+
+    $.ajax({
+        type: 'GET',
+        url: '/UserContents/GetAllContents/',
+        cache: false,
+        contentType: false,
+        processData: false,
+        success: function (Data) {
+            obj = JSON.parse(Data);
+            var content = "<table class=\"table\"><tr><th>Note</th><th>Reference</th>" +
+                "<th>TimeUpdated</th><th></th></tr>";
+
+            for (var i = 0; i < obj["Data"].length; i++) {
+                var dateValue = parseInt(obj["Data"][i]["TimeUpdated"].replace(/\/Date\((\d+)\)\//g, "$1"));
+                var dateValue2 = new Date(dateValue);
+
+                var hours = dateValue2.getHours();
+                var minutes = dateValue2.getMinutes();
+                var seconds = dateValue2.getSeconds();
+                var month = dateValue2.getMonth();
+                var day = dateValue2.getDay();
+                var ampm = hours >= 12 ? 'PM' : 'AM';
+                hours = hours % 12;
+                hours = hours ? hours : 12; // the hour '0' should be '12'
+                minutes = minutes < 10 ? '0' + minutes : minutes;
+                seconds = seconds < 10 ? '0' + seconds : seconds;
+                month = month < 10 ? '0' + month : month;
+                day = day < 10 ? '0' + day : day;
+                var strTime = hours + ':' + minutes + ':' + seconds + ' ' + ampm;
+                var dateValue3 = dateValue2.getFullYear() + "-" + month + "-" + day + "  " + strTime;
+
+                content += "<tr><td>" + obj["Data"][i]["Note"] + "</td><td>" +
+                    obj["Data"][i]["Reference"] + "</td><td>" + dateValue3 + "</td><td>" +
+                    "<a href=\"/Contents/Edit/" + obj["Data"][i]["ContentId"] + "\">Edit</a> | " +
+                    "<a href=\"/Contents/Details/" + obj["Data"][i]["ContentId"] + "\">Details</a> | " +
+                    "<a href=\"/Contents/Delete/" + obj["Data"][i]["ContentId"] + "\">Delete</a>" +
+                    "</td></tr>";
+            }
+            content += "</table>";
+            document.getElementById("content").innerHTML = content;
+
+        },
+        complete: function () {
+
+        }
+    });
+
+</script>
+
+
 
 <p>
-    @Html.ActionLink("Create Content", "Create", "Contents")
+    <a href="/Contents/Create/">Create Content</a>
+    @*@Html.ActionLink("Create Content", "Create", "Contents")*@
 </p>
+
+<div id="content"></div>
 
 @*<p>
     @Html.ActionLink("Create New", "Create")
 </p>*@
-<table class="table">
+@*<table class="table">
     <tr>
     @if (Request.IsAuthenticated && User.Identity.GetUserName() == "Admin")
     {
         <th>
             @Html.DisplayNameFor(model => model.User.UserName)
         </th>
-    }
         <th>
             @Html.DisplayNameFor(model => model.Contents.Text)
         </th>
+    }
         <th>
             @Html.DisplayNameFor(model => model.Contents.Note)
         </th>
@@ -44,6 +93,9 @@ else
         <th></th>
     </tr>
 
+
+
+
 @foreach (var item in Model) {
     <tr>
     @if (Request.IsAuthenticated && User.Identity.GetUserName() == "Admin")
@@ -51,10 +103,10 @@ else
         <th>
             @Html.DisplayFor(modelItem => item.User.UserName)
         </th>
-    }
         <td>
             @Html.DisplayFor(modelItem => item.Contents.Text)
         </td>
+    }
         <td>
             @Html.DisplayFor(modelItem => item.Contents.Note)
         </td>
@@ -70,6 +122,8 @@ else
             @Html.ActionLink("Delete", "Delete", "Contents", new { id=item.ContentId }, null)
         </td>
     </tr>
+
+    
 }
 
-</table>
+</table>*@

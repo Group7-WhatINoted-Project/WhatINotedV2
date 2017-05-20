@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using COMP4900Project.Models;
 using Microsoft.AspNet.Identity;
+using System.Web.Script.Serialization;
 
 namespace COMP4900Project.Controllers
 {
@@ -151,6 +152,59 @@ namespace COMP4900Project.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+
+
+
+
+        public string GetAllContents()
+        {
+            string userid = User.Identity.GetUserId();
+            //string username = User.Identity.GetUserName();
+
+            //List<UserContent> usercontents = new List<UserContent>();
+            var userContents = db.UserContents.Include(u => u.Contents).Include(u => u.User).Where(f => f.UserId == userid);
+
+
+            //return View(userContents.ToList());
+            //List<UserContent> usercontents = new List<UserContent>();
+            //usercontent = db.Contents.ToList();
+
+
+
+            //List<Content> contents = new List<Content>();
+            //contents = db.Contents.ToList();
+
+            JsonResult jsonresult = Json(
+                userContents.Select(x => new {
+                    ContentId = x.ContentId,
+                    Note = x.Contents.Note,
+                    Reference = x.Contents.Reference,
+                    TimeUpdated = x.Contents.TimeUpdated
+                }));
+
+            string json = new JavaScriptSerializer().Serialize(jsonresult);
+            return json;
+        }
+
+        public string GetRecentContents()
+        {
+            string userid = User.Identity.GetUserId();
+            DateTime period = DateTime.Now.AddDays(-7);
+
+            var userContents = db.UserContents.Include(u => u.Contents).Include(u => u.User).Where(f => f.UserId == userid).Where(f => f.Contents.TimeUpdated > period);
+             
+            JsonResult jsonresult = Json(
+                userContents.Select(x => new {
+                    ContentId = x.ContentId,
+                    Note = x.Contents.Note,
+                    Reference = x.Contents.Reference,
+                    TimeUpdated = x.Contents.TimeUpdated
+                }));
+
+            string json = new JavaScriptSerializer().Serialize(jsonresult);
+            return json;
         }
     }
 }
