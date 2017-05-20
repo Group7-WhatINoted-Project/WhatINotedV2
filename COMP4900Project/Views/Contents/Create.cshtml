@@ -5,6 +5,8 @@
 }
 
 <h2>Create</h2>
+<hr />
+
 <script src="~/scripts/tinymce/tinymce.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script>
@@ -107,8 +109,11 @@
                 tinymce.activeEditor.setContent(html);
                 //or
                 tinymce.editors[0].setContent(html);
+
             });
         },
+        // Height
+        height: "500",
         // General options
         mode: "textareas",
         theme: "modern",
@@ -136,26 +141,6 @@
 </script>
 
 
-
-<form enctype="multipart/form-data">
-    Picture <input type="file" id="ePic" name="ePic" /><br />
-    <input type="button" value="Convert to Text" onclick="OCR()" />
-</form>
-
-<br />
-
-<form>
-    ISBN <input type="text" id="Reference1" name="Reference1" /><br />
-    Pages <input type="text" id="pages" name="pages" /><br />
-    @*Style <input type="text" id="style" name="style" /><br />*@
-
-    <fieldset id="style">
-        <input type="radio" value="APA" name="style" checked> APA<br />
-        <input type="radio" value="MLA" name="style"> MLA
-    </fieldset>
-
-    <input type="button" value="Generate Reference" onclick="ISBN()" />
-</form>
 
 
 @*<form action="/Contents/Create" method="post">
@@ -199,7 +184,47 @@
     </div>
 </form>*@
 
+<div style="width: 100%; display: table;">
+    <h4>Note and Reference Genereators </h4>
+    <br />
+    <div style="display: table-row">
+        <div class="form-horizontal" style="width: 40%; display: table-cell;">
+            <b>Convert Picture Text to Digital Text</b>
+            <br />
+            <br />
+            <div class="form-group">
+                <div class="col-md-10">
+                    <form enctype="multipart/form-data">
+                        <p>Select a File from your PC</p>
+                        <input type="file" id="ePic" name="ePic" /><br />
+                        <input class="btn btn-default" type="button" value="Convert" onclick="OCR()" />
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="form-horizontal" style="display: table-cell;">
 
+            <form>
+                <b>Reference Generator</b>
+                <br />
+                <br />
+                <p>Input the ISBN of the book you wish to Rreference</p>
+                <input class="form-control text-box single-line" type="text" id="Reference1" name="Reference1" placeholder="13 digit ISBN code" />
+                <br />
+                <p>Input the pages of the book you wish to Reference</p>
+                <input class="form-control text-box single-line" type="text" id="pages" name="pages" placeholder="Example (120-130)" />
+                <br />
+                <p>Select Citation Type</p>
+                <fieldset id="">
+                    <input type="radio" value="APA" name="style" checked> APA<br />
+                    <input type="radio" value="MLA" name="style"> MLA
+                </fieldset>
+                <br />
+                <input class="btn btn-default" type="button" value="Generate " onclick="ISBN()" />
+            </form>
+        </div>
+    </div>
+</div>
 
 
 
@@ -234,15 +259,15 @@ function validateForm() {
 
 
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group">
+        <div >
             @Html.LabelFor(model => model.Note, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @*@Html.TextAreaFor(model => model.Note)*@
-                <textarea id="Note" name="Note" value=""></textarea>
+                <textarea id="Note"  value=""></textarea>
                 @Html.ValidationMessageFor(model => model.Note, "", new { @class = "text-danger" })
             </div>
         </div>
-
+        <br />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">
             @Html.LabelFor(model => model.Text, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -271,6 +296,9 @@ function validateForm() {
     </div>
     @*}*@
 </form>
+<hr />
+
+
 
     <div>
         @Html.ActionLink("Back to List", "Index")

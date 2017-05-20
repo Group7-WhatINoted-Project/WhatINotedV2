@@ -9,7 +9,7 @@ namespace COMP4900Project.Controllers
 {
     //private ApplicationDbContext db = new ApplicationDbContext();
 
-    [RequireHttps]
+    
     public class HomeController : Controller
     {
         public ActionResult Index()
