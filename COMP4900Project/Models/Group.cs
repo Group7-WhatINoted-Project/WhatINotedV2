@@ -5,7 +5,7 @@ using System.Web;
 
 namespace COMP4900Project.Models
 {
-    public class Group
+    public class Group //this is Group table contain GroupId, GroupName, Links to UserGroups and ContentGroups
     {
         public int GroupId { get; set; }
         public string GroupName { get; set; }
