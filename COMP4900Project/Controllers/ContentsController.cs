@@ -10,6 +10,8 @@ using COMP4900Project.Models;
 using Microsoft.AspNet.Identity;
 using System.Drawing;
 using Newtonsoft.Json.Linq;
+using System.Text;
+using System.IO;
 
 namespace COMP4900Project.Controllers
 {
@@ -197,6 +199,38 @@ namespace COMP4900Project.Controllers
             base.Dispose(disposing);
         }
 
+        [ActionName("ExploreNote")]
+        public ActionResult ExploreNote(int? id)
+        {
+            // this action will create text file 'note.txt' with data from
+            // string variable 'string_with_your_data', which will be downloaded by
+            // your browser
+
+            //todo: add some data from your database into that string:
+            Content content = db.Contents.Find(id);
+            var string_with_your_data = content.Note;
+            var byteArray = Encoding.ASCII.GetBytes(string_with_your_data);
+            var stream = new MemoryStream(byteArray);
+
+            return File(stream, "text/plain", "Note.txt");
+        }
+
+        //explore the text file with text data
+        [ActionName("ExploreText")]
+        public ActionResult ExploreText(int? id)
+        {
+            // this action will create text file 'Text.txt' with data from
+            // string variable 'string_with_your_data', which will be downloaded by
+            // your browser
+
+            //todo: add some data from your database into that string:
+            Content content = db.Contents.Find(id);
+            var string_with_your_data = content.Text;
+            var byteArray = Encoding.ASCII.GetBytes(string_with_your_data);
+            var stream = new MemoryStream(byteArray);
+
+            return File(stream, "text/plain", "Text.txt");
+        }
 
 
 

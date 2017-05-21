@@ -57,11 +57,25 @@ namespace COMP4900Project.Controllers
         }
 
         // GET: UserContents/Create
-        public ActionResult Create()
+        public ActionResult Create(string userid, int contentid)
         {
-            ViewBag.ContentId = new SelectList(db.Contents, "ContentId", "Text");
+            if (userid == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            //UserContent userContent = db.UserContents.Find(id);
+
+            //var userContent = db.UserContents.Include(u => u.Contents).Include(u => u.User).Where(f => f.ContentId == id);
+            //return View(userContents.ToList());
+            //UserContent userContent = db.UserContents.Find();
+
+            //ViewBag.ContentId = new SelectList(db.Contents, "ContentId", "Text");
+
             ViewBag.UserId = new SelectList(db.Users, "Id", "Email");
-            return View();
+
+            UserContent userContent = new UserContent(userid, contentid);
+
+            return View(userContent);
         }
 
         // POST: UserContents/Create

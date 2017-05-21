@@ -44,7 +44,11 @@
 
     </dl>
 </div>
+@using Microsoft.AspNet.Identity
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.ContentId }) |
+    @Html.ActionLink("Share", "Create", "UserContents", new { contentid = Model.ContentId, userid = User.Identity.GetUserId() }, null) |
+    @Html.ActionLink("ExportNote", "ExploreNote", new { id = Model.ContentId }) |
+    @Html.ActionLink("ExportText", "ExploreText", new { id = Model.ContentId }) |
     @Html.ActionLink("Back to List", "Index")
 </p>

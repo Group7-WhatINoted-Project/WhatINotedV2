@@ -32,5 +32,12 @@ namespace COMP4900Project.Controllers
 
             return View();
         }
+
+        public ActionResult QA()
+        {
+            ViewBag.Message = "Your QA page.";
+
+            return View();
+        }
     }
 }
