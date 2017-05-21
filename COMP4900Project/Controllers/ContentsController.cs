@@ -13,6 +13,7 @@ using Newtonsoft.Json.Linq;
 using System.Text;
 using System.IO;
 using System.Web.Script.Serialization;
+using System.Text.RegularExpressions;
 
 namespace COMP4900Project.Controllers
 {
@@ -287,7 +288,9 @@ namespace COMP4900Project.Controllers
 
             //todo: add some data from your database into that string:
             Content content = db.Contents.Find(id);
-            var string_with_your_data = content.Note;
+             //remove the html tag in the note
+            string temp = StripHTML(content.Note);
+            var string_with_your_data = temp;
             var byteArray = Encoding.ASCII.GetBytes(string_with_your_data);
             var stream = new MemoryStream(byteArray);
 
@@ -311,7 +314,11 @@ namespace COMP4900Project.Controllers
             return File(stream, "text/plain", "Text.txt");
         }
 
-
+         //remove the html tag 
+        public static string StripHTML(string input)
+        {
+            return Regex.Replace(input, "<.*?>", String.Empty);
+        }
 
 
 
