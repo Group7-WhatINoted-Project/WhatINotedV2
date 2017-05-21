@@ -6,7 +6,7 @@ using System.Web;
 
 namespace COMP4900Project.Models
 {
-    public class Content
+    public class Content //this is content talbe contain ContentId as primary key, Text, Note, Reference, TimeUpdated, link to UserContents and ContentGroups
     {
         public int ContentId { get; set; }
 
