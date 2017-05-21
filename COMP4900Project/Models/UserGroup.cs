@@ -6,7 +6,7 @@ using System.Web;
 
 namespace COMP4900Project.Models
 {
-    public class UserGroup
+    public class UserGroup //this is UserGroup talbe which contain the UserGroupId as primary key, UserId as ForeignKey link to the User talbe, also include GroupId and Group.
     {
         public UserGroup()
         {
