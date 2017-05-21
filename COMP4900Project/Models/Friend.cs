@@ -6,7 +6,7 @@ using System.Web;
 
 namespace COMP4900Project.Models
 {
-    public class Friend
+    public class Friend //this is the Friend table contains FriendId as primary key, User1Id, User2Id as the foreignKey, link to User1 and User2
     {
         public int FriendId { get; set; }
 
