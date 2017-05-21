@@ -5,7 +5,7 @@ using System.Web;
 
 namespace COMP4900Project.Models
 {
-    public class ContentGroup
+    public class ContentGroup //this is contentGroup talbe contain ContentGroupId as primary key, ContentId, GroupId, Content and Group
     {
         public int ContentGroupId { get; set; }
 
