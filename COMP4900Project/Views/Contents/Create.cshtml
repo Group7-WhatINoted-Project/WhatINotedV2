@@ -10,9 +10,7 @@
 <script src="~/scripts/tinymce/tinymce.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script>
-
     function OCR() {
-
         var formData = new FormData();
         var uploadField = document.getElementById('ePic');
 
@@ -39,16 +37,12 @@
                 }
             });
         }
-
-        
     }
 
     function ISBN() {
-
         var formData = new FormData();
         var Reference1 = document.getElementById('Reference1').value;
         var pages = document.getElementById('pages').value;
-        //var style = document.getElementById('style').value;
 
         if (!(Reference1.length == 10 || Reference1.length == 13)) {
             alert("Please enter 10 or 13 digit ISBN");
@@ -59,18 +53,9 @@
             var radiovalue;
             for (var i = 0, length = radios.length; i < length; i++) {
                 if (radios[i].checked) {
-                    // do whatever you want with the checked radio
-                    //alert(radios[i].value);
                     radiovalue = radios[i].value;
-                    // only one radio can be logically checked, don't check the rest
-                    //break;
                 }
             }
-
-            //var style;
-            //if (document.getElementById('cite').checked) {
-            //    style = document.getElementById('cite').value;
-            //}
 
             formData.append("Reference1", Reference1);
             formData.append("pages", pages);
@@ -91,10 +76,7 @@
                 }
             });
         }
-
-        
     }
-
 
 
 
@@ -109,7 +91,6 @@
                 tinymce.activeEditor.setContent(html);
                 //or
                 tinymce.editors[0].setContent(html);
-
             });
         },
         // Height
@@ -134,55 +115,10 @@
         theme_advanced_toolbar_align: "left",
         theme_advanced_statusbar_location: "bottom",
         theme_advanced_resizing: true,
-
-        // Example content CSS (should be your site CSS)
-        //content_css: "css/example.css",
     });
 </script>
 
 
-
-
-@*<form action="/Contents/Create" method="post">
-    @Html.AntiForgeryToken()
-    <div class="form-horizontal">
-        <h4>Content</h4>
-        <hr>
-        
-
-        <div class="form-group">
-            <label class="control-label col-md-2" for="Note">Note</label>
-            <div class="col-md-10">
-                <div id="mceu_11" class="mce-tinymce mce-container mce-panel" hidefocus="1" tabindex="-1" role="application" style="visibility: hidden; border-width: 1px; width: 100%;"><div id="mceu_11-body" class="mce-container-body mce-stack-layout"><div id="mceu_12" class="mce-container mce-menubar mce-toolbar mce-stack-layout-item mce-first" role="menubar" style="border-width: 0px 0px 1px;"><div id="mceu_12-body" class="mce-container-body mce-flow-layout"><div id="mceu_13" class="mce-widget mce-btn mce-menubtn mce-flow-layout-item mce-first mce-btn-has-text" tabindex="-1" aria-labelledby="mceu_13" role="menuitem" aria-haspopup="true"><button id="mceu_13-open" role="presentation" type="button" tabindex="-1"><span class="mce-txt">File</span> <i class="mce-caret"></i></button></div><div id="mceu_14" class="mce-widget mce-btn mce-menubtn mce-flow-layout-item mce-btn-has-text" tabindex="-1" aria-labelledby="mceu_14" role="menuitem" aria-haspopup="true"><button id="mceu_14-open" role="presentation" type="button" tabindex="-1"><span class="mce-txt">Edit</span> <i class="mce-caret"></i></button></div><div id="mceu_15" class="mce-widget mce-btn mce-menubtn mce-flow-layout-item mce-btn-has-text" tabindex="-1" aria-labelledby="mceu_15" role="menuitem" aria-haspopup="true"><button id="mceu_15-open" role="presentation" type="button" tabindex="-1"><span class="mce-txt">View</span> <i class="mce-caret"></i></button></div><div id="mceu_16" class="mce-widget mce-btn mce-menubtn mce-flow-layout-item mce-last mce-btn-has-text" tabindex="-1" aria-labelledby="mceu_16" role="menuitem" aria-haspopup="true"><button id="mceu_16-open" role="presentation" type="button" tabindex="-1"><span class="mce-txt">Format</span> <i class="mce-caret"></i></button></div></div></div><div id="mceu_17" class="mce-toolbar-grp mce-container mce-panel mce-stack-layout-item" hidefocus="1" tabindex="-1" role="group"><div id="mceu_17-body" class="mce-container-body mce-stack-layout"><div id="mceu_18" class="mce-container mce-toolbar mce-stack-layout-item mce-first mce-last" role="toolbar"><div id="mceu_18-body" class="mce-container-body mce-flow-layout"><div id="mceu_19" class="mce-container mce-flow-layout-item mce-first mce-btn-group" role="group"><div id="mceu_19-body"><div id="mceu_0" class="mce-widget mce-btn mce-first mce-disabled" tabindex="-1" role="button" aria-label="Undo" aria-disabled="true"><button role="presentation" type="button" tabindex="-1"><i class="mce-ico mce-i-undo"></i></button></div><div id="mceu_1" class="mce-widget mce-btn mce-last mce-disabled" tabindex="-1" role="button" aria-label="Redo" aria-disabled="true"><button role="presentation" type="button" tabindex="-1"><i class="mce-ico mce-i-redo"></i></button></div></div></div><div id="mceu_20" class="mce-container mce-flow-layout-item mce-btn-group" role="group"><div id="mceu_20-body"><div id="mceu_2" class="mce-widget mce-btn mce-menubtn mce-first mce-last mce-btn-has-text" tabindex="-1" aria-labelledby="mceu_2" role="button" aria-haspopup="true"><button id="mceu_2-open" role="presentation" type="button" tabindex="-1"><span class="mce-txt">Formats</span> <i class="mce-caret"></i></button></div></div></div><div id="mceu_21" class="mce-container mce-flow-layout-item mce-btn-group" role="group"><div id="mceu_21-body"><div id="mceu_3" class="mce-widget mce-btn mce-first" tabindex="-1" role="button" aria-label="Bold"><button role="presentation" type="button" tabindex="-1"><i class="mce-ico mce-i-bold"></i></button></div><div id="mceu_4" class="mce-widget mce-btn mce-last" tabindex="-1" role="button" aria-label="Italic"><button role="presentation" type="button" tabindex="-1"><i class="mce-ico mce-i-italic"></i></button></div></div></div><div id="mceu_22" class="mce-container mce-flow-layout-item mce-btn-group" role="group"><div id="mceu_22-body"><div id="mceu_5" class="mce-widget mce-btn mce-first" tabindex="-1" role="button" aria-label="Align left"><button role="presentation" type="button" tabindex="-1"><i class="mce-ico mce-i-alignleft"></i></button></div><div id="mceu_6" class="mce-widget mce-btn" tabindex="-1" role="button" aria-label="Align center"><button role="presentation" type="button" tabindex="-1"><i class="mce-ico mce-i-aligncenter"></i></button></div><div id="mceu_7" class="mce-widget mce-btn" tabindex="-1" role="button" aria-label="Align right"><button role="presentation" type="button" tabindex="-1"><i class="mce-ico mce-i-alignright"></i></button></div><div id="mceu_8" class="mce-widget mce-btn mce-last" tabindex="-1" role="button" aria-label="Justify"><button role="presentation" type="button" tabindex="-1"><i class="mce-ico mce-i-alignjustify"></i></button></div></div></div><div id="mceu_23" class="mce-container mce-flow-layout-item mce-btn-group" role="group"><div id="mceu_23-body"><div id="mceu_9" class="mce-widget mce-btn mce-first" tabindex="-1" role="button" aria-label="Decrease indent"><button role="presentation" type="button" tabindex="-1"><i class="mce-ico mce-i-outdent"></i></button></div><div id="mceu_10" class="mce-widget mce-btn mce-last" tabindex="-1" role="button" aria-label="Increase indent"><button role="presentation" type="button" tabindex="-1"><i class="mce-ico mce-i-indent"></i></button></div></div></div><div id="mceu_24" class="mce-container mce-flow-layout-item mce-last mce-btn-group" role="group"><div id="mceu_24-body"></div></div></div></div></div></div><div id="mceu_25" class="mce-edit-area mce-container mce-panel mce-stack-layout-item" hidefocus="1" tabindex="-1" role="group" style="border-width: 1px 0px 0px;"><iframe id="Note_ifr" frameborder="0" allowtransparency="true" title="Rich Text Area. Press ALT-F9 for menu. Press ALT-F10 for toolbar. Press ALT-0 for help" src='javascript:""' style="width: 100%; height: 100px; display: block;"></iframe></div><div id="mceu_26" class="mce-statusbar mce-container mce-panel mce-stack-layout-item mce-last" hidefocus="1" tabindex="-1" role="group" style="border-width: 1px 0px 0px;"><div id="mceu_26-body" class="mce-container-body mce-flow-layout"><div id="mceu_27" class="mce-path mce-flow-layout-item mce-first"><div class="mce-path-item">&nbsp;</div></div><div id="mceu_28" class="mce-flow-layout-item mce-last mce-resizehandle"><i class="mce-ico mce-i-resize"></i></div></div></div></div><div class="mce-branding-powered-by" style="right: 0px; bottom: 37px;"></div></div><textarea cols="20" id="Note" name="Note" rows="2" style="display: none;" aria-hidden="true"></textarea>
-                <span class="field-validation-valid text-danger" data-valmsg-for="Text" data-valmsg-replace="true"></span>
-            </div>
-        </div>
-
-
-        <div class="form-group">
-            <label class="control-label col-md-2" for="Text">Text</label>
-            <div class="col-md-10">
-                <input name="Text" class="form-control text-box single-line" id="Text" type="text" value="">
-                <span class="field-validation-valid text-danger" data-valmsg-for="Text" data-valmsg-replace="true"></span>
-            </div>
-        </div>
-
-
-        <div class="form-group">
-            <label class="control-label col-md-2" for="Reference">Reference</label>
-            <div class="col-md-10">
-                <input name="Reference" class="form-control text-box single-line" id="Reference" type="text" value="">
-                <span class="field-validation-valid text-danger" data-valmsg-for="Text" data-valmsg-replace="true"></span>
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default">
-            </div>
-        </div>
-    </div>
-</form>*@
 
 <div style="width: 100%; display: table;">
     <h4>Note and Reference Genereators </h4>
@@ -244,37 +180,30 @@ function validateForm() {
 }
 </script>
 
-@*@using (Html.BeginForm())
-{*@
+
 <form name="myForm" action="/contents/create/" onsubmit="return validateForm()" method="post">
 
     @Html.AntiForgeryToken()
-
     <div class="form-horizontal">
         <h4>Content</h4>
         <hr />
-
-        <!-- This will automatically post to your Index method
-        (that is decorated with a HttpPost attribute) -->
-
 
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div >
             @Html.LabelFor(model => model.Note, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.TextAreaFor(model => model.Note)
-                @*<textarea id="Note"  value=""></textarea>*@
                 @Html.ValidationMessageFor(model => model.Note, "", new { @class = "text-danger" })
             </div>
         </div>
         <br />
+
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">
             @Html.LabelFor(model => model.Text, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 <input type="hidden" id="Text" name="Text" value="">
                 <div id="TextDisplay"></div>
-                @*<input name="Text" class="form-control text-box single-line" id="Text" type="text" value="">*@
                 @Html.ValidationMessageFor(model => model.Text, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -294,15 +223,13 @@ function validateForm() {
             </div>
         </div>
     </div>
-    @*}*@
 </form>
 <hr />
 
+<div>
+    @Html.ActionLink("Back to List", "Index", "UserContents")
+</div>
 
-
-    <div>
-        @Html.ActionLink("Back to List", "Index", "UserContents")
-    </div>
-    @section Scripts {
-        @Scripts.Render("~/bundles/jqueryval")
-    }
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

@@ -23,17 +23,9 @@ namespace COMP4900Project.Controllers
             {
                 string userid = User.Identity.GetUserId();
                 string username = User.Identity.GetUserName();
+                var userContents = db.UserContents.Include(u => u.Contents).Include(u => u.User).Where(f => f.UserId == userid);
 
-                if (username == "Admin")
-                {
-                    var userContents = db.UserContents.Include(u => u.Contents).Include(u => u.User);
-                    return View(userContents.ToList());
-                }
-                else
-                {
-                    var userContents = db.UserContents.Include(u => u.Contents).Include(u => u.User).Where(f => f.UserId == userid);
-                    return View(userContents.ToList());
-                }
+                return View(userContents.ToList());
             }
             else
             {
@@ -59,26 +51,6 @@ namespace COMP4900Project.Controllers
         // GET: UserContents/Create
         public ActionResult Create2(int contentid)
         {
-            //if (contentid == null)
-            //{
-            //    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            //}
-            //UserContent userContent = db.UserContents.Find(id);
-
-            //var userContent = db.UserContents.Include(u => u.Contents).Include(u => u.User).Where(f => f.ContentId == id);
-            //return View(userContents.ToList());
-            //UserContent userContent = db.UserContents.Find();
-
-            //ViewBag.ContentId = new SelectList(db.Contents, "ContentId", "Text");
-
-            //ViewBag.UserId = new SelectList(db.Users, "Id", "Email");
-
-
-
-            //UserContent userContent = new UserContent("", contentid);
-            //return View(userContent);
-
-            //ViewBag.ContentId = new SelectList(db.Contents, "ContentId", "Text");
             ViewBag.UserId = new SelectList(db.Users, "Id", "Email");
             return View();
         }
@@ -88,7 +60,6 @@ namespace COMP4900Project.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        //public ActionResult Create([Bind(Include = "UserContentId,UserId,ContentId")] UserContent userContent)
         public ActionResult Create([Bind(Include = "UserId,ContentId")] UserContent userContent)
         {
             if (ModelState.IsValid)
@@ -106,12 +77,8 @@ namespace COMP4900Project.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        //public ActionResult Create([Bind(Include = "UserContentId,UserId,ContentId")] UserContent userContent)
         public ActionResult Create2([Bind(Include = "UserId,ContentId")] UserContent userContent)
         {
-            //var users = db.Users.Include(u => u.Id).Where(u => u.Email == Email);
-            //return View(userContents.ToList());
-
             if (ModelState.IsValid)
             {
                 db.UserContents.Add(userContent);
@@ -194,27 +161,11 @@ namespace COMP4900Project.Controllers
             base.Dispose(disposing);
         }
 
-
-
-
-
         public string GetAllContents()
         {
             string userid = User.Identity.GetUserId();
-            //string username = User.Identity.GetUserName();
 
-            //List<UserContent> usercontents = new List<UserContent>();
             var userContents = db.UserContents.Include(u => u.Contents).Include(u => u.User).Where(f => f.UserId == userid);
-
-
-            //return View(userContents.ToList());
-            //List<UserContent> usercontents = new List<UserContent>();
-            //usercontent = db.Contents.ToList();
-
-
-
-            //List<Content> contents = new List<Content>();
-            //contents = db.Contents.ToList();
 
             JsonResult jsonresult = Json(
                 userContents.Select(x => new {

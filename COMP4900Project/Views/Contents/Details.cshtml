@@ -5,61 +5,11 @@
 }
 
 
-@*<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<script>
-
-    $.ajax({
-        type: 'GET',
-        url: '@Url.Action("GetNote", "Contents", new { id = Model.ContentId })',
-        cache: false,
-        contentType: false,
-        processData: false,
-        success: function (Data) {
-
-            obj = JSON.parse(Data);
-            var content = "<table class=\"table\"><tr><th>Text</th><th>Note</th><th>Reference</th>" +
-                "<th>TimeUpdated</th><th></th></tr>";
-
-            for (var i = 0; i < obj["Data"].length; i++) {
-                var dateValue = parseInt(obj["Data"][i]["TimeUpdated"].replace(/\/Date\((\d+)\)\//g, "$1"));
-                var dateValue2 = new Date(dateValue);
-
-                var hours = dateValue2.getHours();
-                var minutes = dateValue2.getMinutes();
-                var seconds = dateValue2.getSeconds();
-                var month = dateValue2.getMonth();
-                var day = dateValue2.getDay();
-                var ampm = hours >= 12 ? 'PM' : 'AM';
-                hours = hours % 12;
-                hours = hours ? hours : 12; // the hour '0' should be '12'
-                minutes = minutes < 10 ? '0' + minutes : minutes;
-                seconds = seconds < 10 ? '0' + seconds : seconds;
-                month = month < 10 ? '0' + month : month;
-                day = day < 10 ? '0' + day : day;
-                var strTime = hours + ':' + minutes + ':' + seconds + ' ' + ampm;
-                var dateValue3 = dateValue2.getFullYear() + "-" + month + "-" + day + "  " + strTime;
-
-                content += "<tr><td>" + obj["Data"][i]["Note"] + "</td><td>" +
-                    obj["Data"][i]["Reference"] + "</td><td>" + dateValue3 + "</td><td>" +
-                    "</td></tr>";
-            }
-            content += "</table>";
-            document.getElementById("content").innerHTML = content;
-        },
-        complete: function () {
-
-        }
-    });
-
-</script>*@
-
 
 <div id="content"></div>
 
 <div>
-
     <hr />
-
     <div id="content"></div>
 
     <dl class="dl-horizontal">
@@ -84,7 +34,7 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Reference)
+            @Html.Raw(Model.Reference)
         </dd>
 
         <dt>
@@ -97,7 +47,7 @@
 
     </dl>
 </div>
-@using Microsoft.AspNet.Identity
+
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.ContentId }) |
     @Html.ActionLink("Share", "Create2", "UserContents", new { contentid = Model.ContentId }, null) |

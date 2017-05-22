@@ -9,7 +9,6 @@
 {
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script>
-
     $.ajax({
         type: 'GET',
         url: '/UserContents/GetRecentContents/',
@@ -53,9 +52,7 @@
 
         }
     });
-
     </script>
-
 
 
 
@@ -63,90 +60,10 @@
 
     <p>Welcome to WhatINoted.com</p>
 
-
     <h2>Recent Notes</h2>
 
     <div id="content"></div>
 
-    @*<table class="table">
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Contents.Note)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Contents.TimeUpdated)
-            </th>
-        </tr>
-
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Contents.Note)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Contents.TimeUpdated)
-                </td>
-            </tr>
-        }
-    </table>*@
-
-
-
-
-    @*<table class="table">
-        <tr>
-            <th>
-                Title
-            </th>
-            <th>
-                Sample
-            </th>
-            <th>
-                Date Update
-            </th>
-            <th></th>
-        </tr>
-
-    </table>
-
-    <h2>Recent Citation Updates</h2>*@
-
-    @*<table class="table">
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Contents.Reference)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Contents.TimeUpdated)
-            </th>
-        </tr>
-
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Contents.Reference)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Contents.TimeUpdated)
-                </td>
-            </tr>
-        }
-    </table>*@
-
-
-    @*<table class="table">
-        <tr>
-            <th>
-                Title
-            </th>
-            <th>
-                Date Updated
-            </th>
-        </tr>
-
-    </table>*@
 }
 else
 {
@@ -190,7 +107,5 @@ else
         <li>Create & Join Groups</li>
         <li>Share amoungst your Contacts & Groups</li>
     </ul>
-
-
 
 }

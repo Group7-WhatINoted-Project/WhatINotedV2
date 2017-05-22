@@ -6,7 +6,9 @@ using System.Web;
 
 namespace COMP4900Project.Models
 {
-    public class Friend //this is the Friend table contains FriendId as primary key, User1Id, User2Id as the foreignKey, link to User1 and User2
+    // this is the Friend table contains FriendId as primary key, User1Id, 
+    // User2Id as the foreignKey, link to User1 and User2
+    public class Friend
     {
         public int FriendId { get; set; }
 
@@ -15,6 +17,7 @@ namespace COMP4900Project.Models
 
         [ForeignKey("User1Id")]
         public virtual ApplicationUser User1 { get; set; }
+
         [ForeignKey("User2Id")]
         public virtual ApplicationUser User2 { get; set; }
     }

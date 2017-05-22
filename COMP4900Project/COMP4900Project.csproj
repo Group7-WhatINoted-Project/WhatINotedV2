@@ -400,8 +400,6 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Friends\Create.cshtml" />
     <Content Include="Views\Friends\Delete.cshtml" />
-    <Content Include="Views\Friends\Details.cshtml" />
-    <Content Include="Views\Friends\Edit.cshtml" />
     <Content Include="Views\Friends\Index.cshtml" />
     <Content Include="Views\UserContents\Create2.cshtml" />
     <Content Include="Views\UserContents\Delete.cshtml" />
@@ -437,6 +435,7 @@
     <Content Include="Scripts\tinymce\langs\readme.md" />
     <Content Include="Views\Home\QA.cshtml" />
     <Content Include="Views\Contents\EditGroup.cshtml" />
+    <Content Include="Views\Contents\DetailsGroup.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
