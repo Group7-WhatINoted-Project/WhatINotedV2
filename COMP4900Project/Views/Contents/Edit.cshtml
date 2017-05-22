@@ -22,7 +22,6 @@
         contentType: false,
         processData: false,
         success: function (Note) {
-            //document.getElementById("Text").value = Text;
             tinyMCE.activeEditor.execCommand('mceInsertContent', false, Note);
         },
         complete: function () {
@@ -32,20 +31,8 @@
 
 
 
-
-    //var html = '';
-
     // Initialize your tinyMCE Editor with your preferred options
     tinyMCE.init({
-        //your regular init parameters here...
-        //setup: function (editor) {
-        //    editor.on('init', function () {
-        //        //load your content here!
-        //        tinymce.activeEditor.setContent(html);
-        //        //or
-        //        tinymce.editors[0].setContent(html);
-        //    });
-        //},
         // General options
         mode: "textareas",
         theme: "modern",
@@ -66,16 +53,11 @@
         theme_advanced_toolbar_align: "left",
         theme_advanced_statusbar_location: "bottom",
         theme_advanced_resizing: true,
-
-        // Example content CSS (should be your site CSS)
-        //content_css: "css/example.css",
     });
 
-
-
-    @*tinyMCE.activeEditor.execCommand('mceInsertContent', false, '@Html.DisplayFor(model => model.Note)');*@
-
 </script>
+
+
 
 @using (Html.BeginForm())
 {
@@ -87,42 +69,24 @@
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.ContentId)
 
-        <!-- This will automatically post to your Index method
-        (that is decorated with a HttpPost attribute) -->
         @Html.TextAreaFor(model => model.Note)
-
-
 
         <div class="form-group">
             @Html.LabelFor(model => model.Text, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 <input name="Text" class="form-control text-box single-line" id="Text" type="text" value="@Html.DisplayFor(model => model.Text)">
-                @*@Html.EditorFor(model => model.Text, new { htmlAttributes = new { @class = "form-control" } })*@
                 @Html.ValidationMessageFor(model => model.Text, "", new { @class = "text-danger" })
             </div>
         </div>
-        @*<div class="form-group">
-                @Html.LabelFor(model => model.Note, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.Note, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.Note, "", new { @class = "text-danger" })
-                </div>
-            </div>*@
+
         <div class="form-group">
             @Html.LabelFor(model => model.Reference, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 <input name="Reference" class="form-control text-box single-line" id="Reference" type="Reference" value="@Html.DisplayFor(model => model.Reference)">
-                @*@Html.EditorFor(model => model.Reference, new { htmlAttributes = new { @class = "form-control" } })*@
                 @Html.ValidationMessageFor(model => model.Reference, "", new { @class = "text-danger" })
             </div>
         </div>
-        @*<div class="form-group">
-                @Html.LabelFor(model => model.TimeUpdated, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.TimeUpdated, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.TimeUpdated, "", new { @class = "text-danger" })
-                </div>
-            </div>*@
+
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="Save" class="btn btn-default" />

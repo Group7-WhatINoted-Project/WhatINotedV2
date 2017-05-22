@@ -20,24 +20,30 @@ namespace COMP4900Project.Controllers
     public class ContentsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
+        private OCRTools.OCR OCR1;
 
         // GET: Contents
         public ActionResult Index()
         {
-            string username = User.Identity.GetUserName();
-
-            if (Request.IsAuthenticated && username == "Admin")
-            {
-                return View(db.Contents.ToList());
-            }
-            else
-            {
-                return RedirectToAction("Index", "Home");
-            }
+            return View(db.Contents.ToList());
         }
 
         // GET: Contents/Details/5
         public ActionResult Details(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Content content = db.Contents.Find(id);
+            if (content == null)
+            {
+                return HttpNotFound();
+            }
+            return View(content);
+        }
+
+        public ActionResult DetailsGroup(int? id)
         {
             if (id == null)
             {
@@ -65,42 +71,12 @@ namespace COMP4900Project.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "ContentId,Text,Note,Reference")] Content content)
         {
-            //string baseUrl = "https://openlibrary.org/api/books?bibkeys=ISBN:{0}&jscmd=details&format=json";
-            //var url = string.Format(baseUrl, content.Reference);
-
-            //var syncClient = new WebClient();
-            //var data = syncClient.DownloadString(url);
-
-            //JObject o = JObject.Parse(data);
-
-            //string author = (string)o["ISBN:" + content.Reference]["details"]["authors"][0]["name"];
-            //string[] authorArray = author.Split(' ');
-            //string surname = authorArray.Last();
-            //string initial = authorArray[0][0] + ".";
-
-            //string publish_date = (string)o["ISBN:" + content.Reference]["details"]["publish_date"];
-
-            //string title = (string)o["ISBN:" + content.Reference]["details"]["title"];
-
-            //string publish_places = (string)o["ISBN:" + content.Reference]["details"]["publish_places"][0];
-            //string[] publish_placesArray = publish_places.Split(' ');
-            //string publish_city = publish_placesArray.First();
-            //string publishers = (string)o["ISBN:" + content.Reference]["details"]["publishers"][0];
-
-            //string citation = surname + ", " + initial + " (" + publish_date + "). <i>" +
-            //    title + "</i> (p. pages_used). " + publish_city + ": " + publishers + ".";
-
-            //content.Reference = citation;
-
-
             content.TimeUpdated = DateTime.Now;
 
             if (ModelState.IsValid)
             {
                 db.Contents.Add(content);
                 db.SaveChanges();
-                //return RedirectToAction("Index");
-                //return RedirectToAction("Create", "UserContents");
 
                 string userid = User.Identity.GetUserId();
                 int contentid = content.ContentId;
@@ -145,12 +121,7 @@ namespace COMP4900Project.Controllers
 
         public string GetNote(int? id)
         {
-            //string userid = User.Identity.GetUserId();
-            //DateTime period = DateTime.Now.AddDays(-7);
-
             var content = db.Contents.Where(f => f.ContentId == id);
-
-            //var userContents = db.UserContents.Include(u => u.Contents).Include(u => u.User).Where(f => f.UserId == userid).Where(f => f.Contents.TimeUpdated > period);
 
             JsonResult jsonresult = Json(
                 content.Select(x => new {
@@ -163,22 +134,7 @@ namespace COMP4900Project.Controllers
 
             string json = new JavaScriptSerializer().Serialize(jsonresult);
             return json;
-
-
-
-
-            //if (id == null)
-            //{
-            //    return "";
-            //}
-            //Content content = db.Contents.Find(id);
-            //if (content == null)
-            //{
-            //    return "";
-            //}
-            //return content.Note;
         }
-
 
 
         // POST: Contents/Edit/5
@@ -195,7 +151,6 @@ namespace COMP4900Project.Controllers
             {
                 db.Entry(content).State = EntityState.Modified;
                 db.SaveChanges();
-                //return RedirectToAction("Index");
                 return RedirectToAction("Index", "UserContents");
             }
             return View(content);
@@ -212,8 +167,7 @@ namespace COMP4900Project.Controllers
             {
                 db.Entry(content).State = EntityState.Modified;
                 db.SaveChanges();
-                //return RedirectToAction("Index");
-                return RedirectToAction("Index", "ContentGroups");
+                return RedirectToAction("Index", "UserGroups");
             }
             return View(content);
         }
@@ -255,7 +209,6 @@ namespace COMP4900Project.Controllers
             Content content = db.Contents.Find(id);
             db.Contents.Remove(content);
             db.SaveChanges();
-            //return RedirectToAction("Index");
             return RedirectToAction("Index", "UserContents");
         }
 
@@ -266,7 +219,6 @@ namespace COMP4900Project.Controllers
             Content content = db.Contents.Find(id);
             db.Contents.Remove(content);
             db.SaveChanges();
-            //return RedirectToAction("Index");
             return RedirectToAction("Index", "ContentGroups");
         }
 
@@ -288,7 +240,7 @@ namespace COMP4900Project.Controllers
 
             //todo: add some data from your database into that string:
             Content content = db.Contents.Find(id);
-             //remove the html tag in the note
+            //remove the html tag in the note
             string temp = StripHTML(content.Note);
             var string_with_your_data = temp;
             var byteArray = Encoding.ASCII.GetBytes(string_with_your_data);
@@ -321,10 +273,6 @@ namespace COMP4900Project.Controllers
         }
 
 
-
-
-        private OCRTools.OCR OCR1;
-
         [HttpPost]
         public string OCR([Bind(Include = "ContentId,Text,Note,Reference")] Content content, HttpPostedFileBase ePic = null)
         {
@@ -333,7 +281,7 @@ namespace COMP4900Project.Controllers
 
             OCR1.BitmapImage = (Bitmap)Image.FromStream(ePic.InputStream, true, true);
 
-            //OCR1.BitmapImageFile = ePic.FileName;
+            // converts image text to digital text
             OCR1.Process();
             content.Note = OCR1.Text;
 
@@ -348,9 +296,11 @@ namespace COMP4900Project.Controllers
             string baseUrl = "https://openlibrary.org/api/books?bibkeys=ISBN:{0}&jscmd=details&format=json";
             var url = string.Format(baseUrl, Reference1);
 
+            // send request to RESTful api
             var syncClient = new WebClient();
             var data = syncClient.DownloadString(url);
 
+            // receives data in JSON format
             JObject o = JObject.Parse(data);
 
             string author = (string)o["ISBN:" + Reference1]["details"]["authors"][0]["name"];
@@ -363,7 +313,7 @@ namespace COMP4900Project.Controllers
 
             string title = (string)o["ISBN:" + Reference1]["details"]["title"];
 
-            //string publish_places = (string)o["ISBN:" + Reference1]["details"]["publish_places"][0];
+            // omit publish_places, field does not exist in api
             string publish_places = "";
             string[] publish_placesArray = publish_places.Split(' ');
             string publish_city = publish_placesArray.First();
@@ -375,7 +325,6 @@ namespace COMP4900Project.Controllers
             {
                 citation = surname + ", " + initial + " (" + publish_date + "). <i>" +
                     title + "</i> " + (pages == "" ? "" : "(p. " + pages + "). ") + publish_city + ": " + publishers + ".";
-                
             }
             else
             {
@@ -383,21 +332,7 @@ namespace COMP4900Project.Controllers
                     ", " + publish_date + ".";
             }
 
-
             return citation;
-
-
-
-            //OCR1 = new OCRTools.OCR();
-            //OCR1.DefaultFolder = Server.MapPath("/bin");
-
-            //OCR1.BitmapImage = (Bitmap)Image.FromStream(ePic.InputStream, true, true);
-
-            ////OCR1.BitmapImageFile = ePic.FileName;
-            //OCR1.Process();
-            //content.Note = OCR1.Text;
-
-            //return content.Note;
         }
     }
 }

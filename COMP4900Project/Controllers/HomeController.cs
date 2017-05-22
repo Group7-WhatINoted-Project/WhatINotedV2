@@ -7,15 +7,11 @@ using System.Web.Mvc;
 
 namespace COMP4900Project.Controllers
 {
-    //private ApplicationDbContext db = new ApplicationDbContext();
-
     [RequireHttps]
     public class HomeController : Controller
     {
         public ActionResult Index()
         {
-            //var userContents = db.UserContents.Include(u => u.Contents).Include(u => u.User);
-            //return View(userContents.ToList());
             return View();
         }
 

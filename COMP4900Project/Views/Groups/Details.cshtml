@@ -8,22 +8,14 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script>
-
-    //groupid
-    @*var formData = new FormData();
-    var uploadField = @Html.DisplayFor(model => model.GroupId);
-    formData.append("groupid", uploadField);*@
-
     $.ajax({
         type: 'GET',
         url: '@Url.Action("GetGroupContents", "ContentGroups", new { groupid = Model.GroupId })',
-        //data: formData,
         cache: false,
         contentType: false,
         processData: false,
         success: function (Data) {
             obj = JSON.parse(Data);
-            //alert(Data);
             var content = "<table class=\"table\"><tr><th>Note</th><th>Reference</th>" +
                 "<th>TimeUpdated</th></tr>";
 
@@ -48,8 +40,8 @@
 
                 content += "<tr><td>" + obj["Data"][i]["Note"] + "</td><td>" +
                     obj["Data"][i]["Reference"] + "</td><td>" + dateValue3 + "</td><td>" +
-                    "<a href=\"/Contents/Edit/" + obj["Data"][i]["ContentId"] + "\">Edit</a> | " +
-                   "<a href=\"/Contents/Details/" + obj["Data"][i]["ContentId"] + "\">View</a> | " +
+                    "<a href=\"/Contents/EditGroup/" + obj["Data"][i]["ContentId"] + "\">Edit</a> | " +
+                   "<a href=\"/Contents/DetailsGroup/" + obj["Data"][i]["ContentId"] + "\">View</a> | " +
                    "<a href=\"/ContentGroups/Delete/" + obj["Data"][i]["ContentGroupId"] + "\">Delete</a>" +
                    "</td></tr>";
 
@@ -83,7 +75,6 @@
 <div id="content"></div>
 
 <p>
-    @*@Html.ActionLink("Edit", "Edit", new { id = Model.GroupId }) |*@
     @Html.ActionLink("Add Notes", "Create2", "ContentGroups", new { groupid = Model.GroupId }, null) |
     @Html.ActionLink("Back to List", "Index", "UserGroups")
 </p>

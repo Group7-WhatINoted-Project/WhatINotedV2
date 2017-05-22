@@ -22,17 +22,9 @@ namespace COMP4900Project.Controllers
             {
                 string userid = User.Identity.GetUserId();
                 string username = User.Identity.GetUserName();
+                var friends = db.Friends.Include(f => f.User1).Include(f => f.User2).Where(f => f.User1Id == userid);
 
-                if (username == "Admin")
-                {
-                    var friends = db.Friends.Include(f => f.User1).Include(f => f.User2);
-                    return View(friends.ToList());
-                }
-                else
-                {
-                    var friends = db.Friends.Include(f => f.User1).Include(f => f.User2).Where(f => f.User1Id == userid);
-                    return View(friends.ToList());
-                }
+                return View(friends.ToList());
             }
             else
             {
@@ -40,25 +32,9 @@ namespace COMP4900Project.Controllers
             }
         }
 
-        // GET: Friends/Details/5
-        public ActionResult Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Friend friend = db.Friends.Find(id);
-            if (friend == null)
-            {
-                return HttpNotFound();
-            }
-            return View(friend);
-        }
-
         // GET: Friends/Create
         public ActionResult Create()
         {
-            //ViewBag.User1Id = new SelectList(db.Users, "Id", "Email");
             ViewBag.User2Id = new SelectList(db.Users, "Id", "UserName");
             return View();
         }
@@ -79,41 +55,6 @@ namespace COMP4900Project.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.User1Id = new SelectList(db.Users, "Id", "Email", friend.User1Id);
-            ViewBag.User2Id = new SelectList(db.Users, "Id", "Email", friend.User2Id);
-            return View(friend);
-        }
-
-        // GET: Friends/Edit/5
-        public ActionResult Edit(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Friend friend = db.Friends.Find(id);
-            if (friend == null)
-            {
-                return HttpNotFound();
-            }
-            ViewBag.User1Id = new SelectList(db.Users, "Id", "Email", friend.User1Id);
-            ViewBag.User2Id = new SelectList(db.Users, "Id", "Email", friend.User2Id);
-            return View(friend);
-        }
-
-        // POST: Friends/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "FriendId,User1Id,User2Id")] Friend friend)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Entry(friend).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
             ViewBag.User1Id = new SelectList(db.Users, "Id", "Email", friend.User1Id);
             ViewBag.User2Id = new SelectList(db.Users, "Id", "Email", friend.User2Id);
             return View(friend);

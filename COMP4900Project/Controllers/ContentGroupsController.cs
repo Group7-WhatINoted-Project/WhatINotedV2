@@ -18,8 +18,7 @@ namespace COMP4900Project.Controllers
         // GET: ContentGroups
         public ActionResult Index()
         {
-            var contentGroups = db.ContentGroups.Include(c => c.Content).Include(c => c.Group);
-            return View(contentGroups.ToList());
+            return View(db.ContentGroups.ToList());
         }
 
         // GET: ContentGroups/Details/5
@@ -41,7 +40,6 @@ namespace COMP4900Project.Controllers
         public ActionResult Create2(int groupid)
         {
             ViewBag.ContentId = new SelectList(db.Contents, "ContentId", "Text");
-            //ViewBag.GroupId = new SelectList(db.Groups, "GroupId", "GroupName");
             return View();
         }
 
@@ -138,7 +136,7 @@ namespace COMP4900Project.Controllers
             ContentGroup contentGroup = db.ContentGroups.Find(id);
             db.ContentGroups.Remove(contentGroup);
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", "UserGroups");
         }
 
         protected override void Dispose(bool disposing)
@@ -155,11 +153,6 @@ namespace COMP4900Project.Controllers
 
         public string GetGroupContents(int groupid)
         {
-            //string userid = User.Identity.GetUserId();
-            //DateTime period = DateTime.Now.AddDays(-7);
-
-            //return "";
-
             var groupContents = db.ContentGroups.Include(u => u.Content).Include(u => u.Group).Where(u => u.GroupId == groupid);
 
             JsonResult jsonresult = Json(

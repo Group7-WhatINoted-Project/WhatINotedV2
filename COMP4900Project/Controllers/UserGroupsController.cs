@@ -22,17 +22,9 @@ namespace COMP4900Project.Controllers
             {
                 string userid = User.Identity.GetUserId();
                 string username = User.Identity.GetUserName();
+                var userGroups = db.UserGroups.Include(u => u.Group).Include(u => u.User).Where(f => f.UserId == userid);
 
-                if (username == "Admin")
-                {
-                    var userGroups = db.UserGroups.Include(u => u.Group).Include(u => u.User);
-                    return View(userGroups.ToList());
-                }
-                else
-                {
-                    var userGroups = db.UserGroups.Include(u => u.Group).Include(u => u.User).Where(f => f.UserId == userid);
-                    return View(userGroups.ToList());
-                }
+                return View(userGroups.ToList());
             }
             else
             {
@@ -59,7 +51,6 @@ namespace COMP4900Project.Controllers
         public ActionResult Create()
         {
             ViewBag.GroupId = new SelectList(db.Groups, "GroupId", "GroupName");
-            //ViewBag.UserId = new SelectList(db.Users, "Id", "Email");
             string userid = User.Identity.GetUserId();
             UserGroup usergroup = new UserGroup(userid, 0);
             return View(usergroup);

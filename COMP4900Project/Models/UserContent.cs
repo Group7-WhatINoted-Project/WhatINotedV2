@@ -6,7 +6,9 @@ using System.Web;
 
 namespace COMP4900Project.Models
 {
-    public class UserContent //this is UserContent talbe which contain the UserContentId as primary key, UserId as ForeignKey link to the User talbe, also include ContentId and Contents.
+    // this is UserContent talbe which contain the UserContentId as primary key, 
+    // UserId as ForeignKey link to the User talbe, also include ContentId and Contents.
+    public class UserContent
     {
         public UserContent()
         {

@@ -53,8 +53,6 @@ namespace COMP4900Project.Controllers
             {
                 db.Groups.Add(group);
                 db.SaveChanges();
-                //return RedirectToAction("Index");
-                //return RedirectToAction("Create", "UserContents");
 
                 string userid = User.Identity.GetUserId();
                 int groupid = group.GroupId;
@@ -65,18 +63,6 @@ namespace COMP4900Project.Controllers
             }
 
             return View(group);
-
-
-
-
-            //if (ModelState.IsValid)
-            //{
-            //    db.Groups.Add(group);
-            //    db.SaveChanges();
-            //    return RedirectToAction("Index");
-            //}
-
-            //return View(group);
         }
 
         // GET: Groups/Edit/5
@@ -105,7 +91,6 @@ namespace COMP4900Project.Controllers
             {
                 db.Entry(group).State = EntityState.Modified;
                 db.SaveChanges();
-                //return RedirectToAction("Index");
                 return RedirectToAction("Index", "UserGroups");
             }
             return View(group);
@@ -134,7 +119,6 @@ namespace COMP4900Project.Controllers
             Group group = db.Groups.Find(id);
             db.Groups.Remove(group);
             db.SaveChanges();
-            //return RedirectToAction("Index");
             return RedirectToAction("Index", "UserGroups");
         }
 

@@ -6,7 +6,9 @@ using System.Web;
 
 namespace COMP4900Project.Models
 {
-    public class UserGroup //this is UserGroup talbe which contain the UserGroupId as primary key, UserId as ForeignKey link to the User talbe, also include GroupId and Group.
+    // this is UserGroup table which contain the UserGroupId as primary key, 
+    // UserId as ForeignKey link to the User talbe, also include GroupId and Group.
+    public class UserGroup
     {
         public UserGroup()
         {
@@ -26,6 +28,7 @@ namespace COMP4900Project.Models
 
         [ForeignKey("UserId")]
         public virtual ApplicationUser User { get; set; }
+
         public virtual Group Group { get; set; }
     }
 }
