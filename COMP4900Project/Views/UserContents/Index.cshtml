@@ -15,7 +15,7 @@
     }
 </style>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+@*<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script>
     $.ajax({
         type: 'GET',
@@ -62,10 +62,43 @@
 
         }
     });
-</script>
+</script>*@
 
 <p>
     <a href="/Contents/Create/">Create Content</a>
 </p>
 
-<div id="content"></div>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Contents.Note)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Contents.Reference)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Contents.TimeUpdated)
+        </th>
+        <th></th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.Raw(item.Contents.Note)
+            </td>
+            <td>
+                @Html.Raw(item.Contents.Reference)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Contents.TimeUpdated)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", "Contents", new { id = item.ContentId }, null) |
+                @Html.ActionLink("View", "Details", "Contents", new { id = item.ContentId }, null) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.UserContentId })
+            </td>
+        </tr>
+    }
+</table>
+
