@@ -14,6 +14,7 @@ using System.Text;
 using System.IO;
 using System.Web.Script.Serialization;
 using System.Text.RegularExpressions;
+using Newtonsoft.Json;
 
 namespace COMP4900Project.Controllers
 {
@@ -288,7 +289,11 @@ namespace COMP4900Project.Controllers
             return content.Note;
         }
 
-
+        class Author
+        {
+            public string surname { get; set; }
+            public string initial { get; set; }
+        }
 
         [HttpPost]
         public string ISBN(string Reference1 = null, string pages = null, string style = null)
@@ -303,11 +308,30 @@ namespace COMP4900Project.Controllers
             // receives data in JSON format
             JObject o = JObject.Parse(data);
 
-            string author = (string)o["ISBN:" + Reference1]["details"]["authors"][0]["name"];
-            string[] authorArray = author.Split(' ');
-            string surname = authorArray.Last();
-            string firstname = authorArray.First();
-            string initial = authorArray[0][0] + ".";
+            // authors
+            int i = 0;
+            List<Author> authors = new List<Author>();
+
+            foreach (var arr in o["ISBN:" + Reference1]["details"]["authors"])
+            {
+                string author = (string)o["ISBN:" + Reference1]["details"]["authors"][i]["name"];
+                string[] authorArray = author.Split(' ');
+                string surname = authorArray.Last();
+                string firstname = authorArray.First();
+                string initial = authorArray[0][0] + ".";
+                Author a = new Author();
+                a.surname = surname;
+                a.initial = initial;
+                authors.Add(a);
+                i++;
+            }
+
+
+            //string author = (string)o["ISBN:" + Reference1]["details"]["authors"][0]["name"];
+            //string[] authorArray = author.Split(' ');
+            //string surname = authorArray.Last();
+            //string firstname = authorArray.First();
+            //string initial = authorArray[0][0] + ".";
 
             string publish_date = (string)o["ISBN:" + Reference1]["details"]["publish_date"];
 
@@ -323,13 +347,29 @@ namespace COMP4900Project.Controllers
 
             if (style == "APA")
             {
-                citation = surname + ", " + initial + " (" + publish_date + "). <i>" +
-                    title + "</i> " + (pages == "" ? "" : "(p. " + pages + "). ") + publish_city + ": " + publishers + ".";
+                for (int j = 0; j < authors.Count; j++)
+                {
+                    citation += authors[j].surname + ", " + authors[j].initial + ", ";
+                }
+
+                citation += " (" + publish_date + "). <i>" + title + "</i> " 
+                    + (pages == "" ? "" : "(p. " + pages + "). ") + publish_city + ": " + 
+                    publishers + ".";
+
+                //citation = surname + ", " + initial + " (" + publish_date + "). <i>" +
+                //    title + "</i> " + (pages == "" ? "" : "(p. " + pages + "). ") + publish_city + ": " + publishers + ".";
             }
             else
             {
-                citation = surname + ", " + firstname + ". " + title + ". " + publishers +
-                    ", " + publish_date + ".";
+                for (int j = 0; j < authors.Count; j++)
+                {
+                    citation += authors[j].surname + ", " + authors[j].initial + ", ";
+                }
+
+                citation += ". " + title + ". " + publishers + ", " + publish_date + ".";
+
+                //citation = surname + ", " + firstname + ". " + title + ". " + publishers +
+                //    ", " + publish_date + ".";
             }
 
             return citation;
